@@ -5,19 +5,20 @@ using System.Linq.Expressions;
 
 namespace BookApi.DataAccess
 {
-    public class BookRepository<TEntity> : IBook<TEntity>
+    public class BookRepository<TEntity,TContext> : IBook<TEntity>
         where TEntity : class, new()
-        //where TContext:BookDbContext,new()
+        where TContext:BookDbContext,new()
     {
         private readonly BookDbContext _dbContext;
-        public BookRepository(BookDbContext dbContext)
+        public BookRepository()
         {
-            _dbContext = dbContext;
+            _dbContext = new TContext();
         }
         public int Add(TEntity entity)
         {
             try
             {
+              
                 _dbContext.Entry(entity).State = EntityState.Added;
                 _dbContext.SaveChanges();
                 return StatusCodes.Status200OK;
