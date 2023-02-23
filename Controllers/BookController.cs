@@ -27,11 +27,19 @@ namespace BookApi.Controllers
             Expression<Func<Book, bool>> expression = (c => c.BookID == id && c.Activity == 1);
             return _book.GetByID(expression);
         }
+
         [HttpGet("GetSearchByName")]
-        public List<Book> Get([FromQuery] string Name)
+        public List<Book> GetSearch([FromQuery] string Name)
         {
             Expression<Func<Book, bool>> expression = (c => c.BookName.Contains(Name));
-            return _book.GetSearch(expression).ToList();
+            return _book.GetSpecial(expression).ToList();
+        }
+
+        [HttpGet("GetOrderByName")]
+        public List<Book> GetOrder()
+        {
+            List<Book> books = Get().OrderBy(c => c.BookName).ToList();
+            return books;
         }
 
         [HttpPost]

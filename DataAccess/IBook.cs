@@ -8,7 +8,8 @@ namespace BookApi.DataAccess
     {
         IList<T> GetAllBook();
         T GetByID(Expression<Func<T, bool>> expression);
-        IList<T> GetSearch(Expression<Func<T, bool>> expression);
+        IList<T> GetSpecial(Expression<Func<T, bool>> expression);
+        
         int Add(T entity);
         int Edit(T entity);
         int Delete(T entity);

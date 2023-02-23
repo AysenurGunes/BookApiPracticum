@@ -83,7 +83,7 @@ namespace BookApi.DataAccess
                 return new TEntity();
             }
         }
-        public List<TEntity> GetSearch(Expression<Func<TEntity,bool>> expression)
+        public IList<TEntity> GetSpecial(Expression<Func<TEntity,bool>> expression)
         {
             try
             {
@@ -94,6 +94,7 @@ namespace BookApi.DataAccess
                 return new List<TEntity>();
             }
         }
+
        
     }
 }
