@@ -30,12 +30,12 @@ namespace BookApi.DataAccess
             }
         }
 
-        public int Delete(Expression<Func<TEntity, bool>> expression)
+        public int Delete(TEntity entity)
         {
             try
             {
-                var entit = _dbContext.Set<TEntity>().Where(expression).FirstOrDefault();
-                _dbContext.Entry(entit).State = EntityState.Modified;
+                //var entit = _dbContext.Set<TEntity>().Where(expression).FirstOrDefault();
+                _dbContext.Entry(entity).State = EntityState.Modified;
                 _dbContext.SaveChanges();
                 return StatusCodes.Status200OK;
             }
@@ -81,6 +81,17 @@ namespace BookApi.DataAccess
             catch (Exception)
             {
                 return new TEntity();
+            }
+        }
+        public List<TEntity> GetSearch(Expression<Func<TEntity,bool>> expression)
+        {
+            try
+            {
+                return _dbContext.Set<TEntity>().Where(expression).ToList();
+            }
+            catch (Exception)
+            {
+                return new List<TEntity>();
             }
         }
        

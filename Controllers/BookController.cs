@@ -1,8 +1,7 @@
 ﻿using BookApi.DataAccess;
 using BookApi.Models;
 using Microsoft.AspNetCore.Mvc;
-
-
+using System.Linq.Expressions;
 
 namespace BookApi.Controllers
 {
@@ -15,36 +14,51 @@ namespace BookApi.Controllers
         {
             _book= book;
         }
-        [HttpGet]
+        [HttpGet("GetAll")]
         public List<Book> Get()
         {
             return _book.GetAllBook().ToList();
              
         }
 
-        // GET api/<BookController>/5
-        [HttpGet("{id}")]
-        public string Get(int id)
+        [HttpGet("GetByID")]
+        public Book Get([FromQuery]int id)
         {
-            return "value";
+            Expression<Func<Book,bool>> expression=(c=>c.BookID==id && c.Activity==1);
+            return _book.GetByID(expression);
         }
-
-        // POST api/<BookController>
+        [HttpGet("GetByName")]
         [HttpPost]
-        public void Post([FromBody] string value)
+        public void Post([FromBody] Book book)
         {
+            //gonna be validation
+            _book.Add(book);
         }
 
-        // PUT api/<BookController>/5
+        
         [HttpPut("{id}")]
-        public void Put(int id, [FromBody] string value)
+        public ActionResult Put(int id, [FromBody] Book book)
         {
+            if (id!=book.BookID)
+            {
+                return BadRequest();
+            }
+            int result=_book.Edit(book);
+            return StatusCode(result);
         }
 
-        // DELETE api/<BookController>/5
         [HttpDelete("{id}")]
-        public void Delete(int id)
+        public ActionResult Delete(int id)
         {
+            if (id==0)
+            {
+                return BadRequest();
+            }
+            Book book = Get(id);
+            book.Activity = 0;
+           
+            int result = _book.Delete(book);
+            return StatusCode(result);
         }
     }
 }
