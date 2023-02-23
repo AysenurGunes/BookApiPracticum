@@ -1,9 +1,9 @@
 ﻿using AutoMapper;
-using BookApi.AutoMapper;
 using BookApi.DataAccess;
 using BookApi.Dtos;
 using BookApi.Models;
 using BookApi.Validations;
+using FluentValidation;
 using Microsoft.AspNetCore.Mvc;
 using System.Linq.Expressions;
 
@@ -14,12 +14,10 @@ namespace BookApi.Controllers
     public class BookController : ControllerBase
     {
         private readonly IBook<Book> _book;
-        private readonly IBook<PostBookDto> _book2;
         private readonly IMapper _mapper;
-        public BookController(IBook<Book> book, IBook<PostBookDto> book2, IMapper mapper)
+        public BookController(IBook<Book> book, IMapper mapper)
         {
             _book = book;
-            _book2 = book2;
             _mapper = mapper;
         }
         [HttpGet("GetAll")]
@@ -54,9 +52,8 @@ namespace BookApi.Controllers
         public ActionResult Post([FromBody] PostBookDto book)
         {
             PostBookValidation validations = new PostBookValidation();
-            var resultValidation = validations.Validate(book);
-            if (!resultValidation.IsValid)
-                return BadRequest(resultValidation.Errors.FirstOrDefault());
+            validations.ValidateAndThrow(book);
+
             var book1 = _mapper.Map<Book>(book);
             return StatusCode(_book.Add(book1));
         }
@@ -70,10 +67,9 @@ namespace BookApi.Controllers
                 return BadRequest();
             }
             BookValidation validations = new BookValidation();
-            var resultValidation = validations.Validate(book);
+            validations.ValidateAndThrow(book);
 
-            if (!resultValidation.IsValid)
-                return BadRequest(resultValidation.Errors.FirstOrDefault());
+
 
             int result = _book.Edit(book);
             return StatusCode(result);
