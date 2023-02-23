@@ -12,22 +12,28 @@ namespace BookApi.Controllers
         private readonly IBook<Book> _book;
         public BookController(IBook<Book> book)
         {
-            _book= book;
+            _book = book;
         }
         [HttpGet("GetAll")]
         public List<Book> Get()
         {
             return _book.GetAllBook().ToList();
-             
+
         }
 
         [HttpGet("GetByID")]
-        public Book Get([FromQuery]int id)
+        public Book Get([FromQuery] int id)
         {
-            Expression<Func<Book,bool>> expression=(c=>c.BookID==id && c.Activity==1);
+            Expression<Func<Book, bool>> expression = (c => c.BookID == id && c.Activity == 1);
             return _book.GetByID(expression);
         }
-        [HttpGet("GetByName")]
+        [HttpGet("GetSearchByName")]
+        public List<Book> Get([FromQuery] string Name)
+        {
+            Expression<Func<Book, bool>> expression = (c => c.BookName.Contains(Name));
+            return _book.GetSearch(expression).ToList();
+        }
+
         [HttpPost]
         public void Post([FromBody] Book book)
         {
@@ -35,30 +41,31 @@ namespace BookApi.Controllers
             _book.Add(book);
         }
 
-        
+
         [HttpPut("{id}")]
         public ActionResult Put(int id, [FromBody] Book book)
         {
-            if (id!=book.BookID)
+            if (id != book.BookID)
             {
                 return BadRequest();
             }
-            int result=_book.Edit(book);
+            int result = _book.Edit(book);
             return StatusCode(result);
         }
 
         [HttpDelete("{id}")]
         public ActionResult Delete(int id)
         {
-            if (id==0)
+            if (id == 0)
             {
                 return BadRequest();
             }
             Book book = Get(id);
             book.Activity = 0;
-           
+
             int result = _book.Delete(book);
             return StatusCode(result);
         }
+
     }
 }
