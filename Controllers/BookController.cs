@@ -1,4 +1,7 @@
-﻿using BookApi.DataAccess;
+﻿using AutoMapper;
+using BookApi.AutoMapper;
+using BookApi.DataAccess;
+using BookApi.Dtos;
 using BookApi.Models;
 using Microsoft.AspNetCore.Mvc;
 using System.Linq.Expressions;
@@ -10,9 +13,13 @@ namespace BookApi.Controllers
     public class BookController : ControllerBase
     {
         private readonly IBook<Book> _book;
-        public BookController(IBook<Book> book)
+        private readonly IBook<PostBookDto> _book2;
+        private readonly IMapper _mapper;
+        public BookController(IBook<Book> book, IBook<PostBookDto> book2, IMapper mapper)
         {
             _book = book;
+            _book2= book2;
+            _mapper = mapper;
         }
         [HttpGet("GetAll")]
         public List<Book> Get()
@@ -43,10 +50,11 @@ namespace BookApi.Controllers
         }
 
         [HttpPost]
-        public void Post([FromBody] Book book)
+        public void Post([FromBody] PostBookDto book)
         {
             //gonna be validation
-            _book.Add(book);
+           var book1= _mapper.Map<Book>(book);
+            _book.Add(book1);
         }
 
 

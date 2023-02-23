@@ -3,24 +3,37 @@ using Microsoft.EntityFrameworkCore;
 
 namespace BookApi.DataAccess
 {
-    public class BookDbContext:DbContext
+    public class BookDbContext : DbContext
     {
+        private readonly IConfiguration _configuration;
         public BookDbContext()
         {
-
+           
         }
-        protected override  void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+        public BookDbContext(IConfiguration configuration)
         {
-            // need configuration di 
-            //optionsBuilder.UseSqlServer()
+            _configuration = configuration;
+        }
+        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+        {
+            optionsBuilder.UseSqlServer(@"Server=DESKTOP-TN9J4B3\SQLEXPRESS; Database=BookDb;User Id=patika; Password=123patika; TrustServerCertificate=True");
         }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             //need microsoft.entityframeworkcore.sqlserver package
 
             modelBuilder.Entity<Book>().HasKey(c => c.BookID).IsClustered();
-            modelBuilder.Entity<Book>().Property(c=>c.BookName).HasMaxLength(100).IsRequired();
+            modelBuilder.Entity<Book>().Property(c => c.BookName).HasMaxLength(100).IsRequired();
             modelBuilder.Entity<Book>().Property(c => c.Activity).HasDefaultValue(1);
+            modelBuilder.Entity<Book>().Property(c => c.AuthorName).HasMaxLength(100);
+
+            modelBuilder.Entity<Publisher>().HasKey(c => c.PublisherID).IsClustered();
+            modelBuilder.Entity<Publisher>().Property(c => c.PublisherName).HasMaxLength(100).IsRequired();
+            modelBuilder.Entity<Publisher>().Property(c => c.Activity).HasDefaultValue(1);
+
+            modelBuilder.Entity<BookType>().HasKey(c => c.BookTypeID).IsClustered();
+            modelBuilder.Entity<BookType>().Property(c => c.TypeName).HasMaxLength(100).IsRequired();
+            modelBuilder.Entity<BookType>().Property(c => c.Activity).HasDefaultValue(1);
 
 
         }
@@ -29,5 +42,5 @@ namespace BookApi.DataAccess
         public DbSet<Publisher> Publishers { get; set; }
 
     }
-    
+
 }
