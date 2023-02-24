@@ -2,6 +2,7 @@
 
 Proje .Net 6 ile yazılmıştır. Yeni kitap ekleme ve kitapları listeleme işlemleri yapmaktadır.
 Projede ;
+
 -Model kullanımı
 -Model Foreign key yapılanmasu ve FluentApi örnekleri
 -Repository ve Abstract kullanımı
