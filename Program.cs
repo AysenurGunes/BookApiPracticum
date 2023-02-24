@@ -33,7 +33,9 @@ using (var scope = app.Services.CreateScope())
     try
     {
         db.Database.Migrate();
-       
+        var services = scope.ServiceProvider;
+        DataGenerator.Initialize(services);
+
     }
     catch (Exception ex)
     {
