@@ -1,6 +1,7 @@
 using BookApi.DataAccess;
 using BookApi.Helper;
 using BookApi.Models;
+using Microsoft.EntityFrameworkCore;
 using System.Reflection;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -9,7 +10,6 @@ var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddControllers();
 builder.Services.AddDbContext<BookDbContext>();
-//builder.Services.AddScoped(DataGenerator.Initialize());
 builder.Services.AddAutoMapper(Assembly.GetExecutingAssembly());
 builder.Services.AddEndpointsApiExplorer();
 //builder.Services.AddSingleton<ServiceResponse<Book>>();
@@ -26,7 +26,23 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI();
 }
+using (var scope = app.Services.CreateScope())
+{
 
+    var db = scope.ServiceProvider.GetRequiredService<BookDbContext>();
+    try
+    {
+        db.Database.Migrate();
+       
+    }
+    catch (Exception ex)
+    {
+        Console.WriteLine(ex.ToString());
+    }
+
+    var pendings = db.Database.GetPendingMigrations().ToList();
+
+}
 app.UseHttpsRedirection();
 
 app.UseAuthorization();
