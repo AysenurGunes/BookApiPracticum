@@ -59,7 +59,7 @@ namespace BookApi.DataAccess
             }
         }
 
-        public IList<TEntity> GetAllBook()
+        public IList<TEntity> GetAll()
         {
             try
             {

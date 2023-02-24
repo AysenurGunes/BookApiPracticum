@@ -6,7 +6,7 @@ namespace BookApi.DataAccess
 {
     public interface IBook<T>
     {
-        IList<T> GetAllBook();
+        IList<T> GetAll();
         T GetByID(Expression<Func<T, bool>> expression);
         IList<T> GetSpecial(Expression<Func<T, bool>> expression);
         

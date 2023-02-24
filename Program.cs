@@ -13,9 +13,11 @@ builder.Services.AddDbContext<BookDbContext>();
 builder.Services.AddAutoMapper(Assembly.GetExecutingAssembly());
 builder.Services.AddEndpointsApiExplorer();
 //builder.Services.AddSingleton<ServiceResponse<Book>>();
-//builder.Services.AddSingleton<IBook<Book>>();
 builder.Services.AddSwaggerGen();
-
+builder.Services.AddHttpContextAccessor();
+builder.Services.AddScoped<IBook<Book>, BookRepository<Book,BookDbContext>>();
+builder.Services.AddScoped<IBook<BookType>, BookRepository<BookType, BookDbContext>>();
+builder.Services.AddScoped<IBook<Publisher>, BookRepository<Publisher, BookDbContext>>();
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.

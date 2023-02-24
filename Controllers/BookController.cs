@@ -23,8 +23,7 @@ namespace BookApi.Controllers
         [HttpGet("GetAll")]
         public List<Book> Get()
         {
-            return _book.GetAllBook().ToList();
-
+            return _book.GetAll().ToList();
         }
 
         [HttpGet("GetByID")]
@@ -60,18 +59,19 @@ namespace BookApi.Controllers
 
 
         [HttpPut("{id}")]
-        public ActionResult Put(int id, [FromBody] Book book)
+        public ActionResult Put(int id, [FromBody] PutBookDto book)
         {
             if (id != book.BookID)
             {
                 return BadRequest();
             }
+
+            var book1 = _mapper.Map<Book>(book);
+
             BookValidation validations = new BookValidation();
-            validations.ValidateAndThrow(book);
+            validations.ValidateAndThrow(book1);
 
-
-
-            int result = _book.Edit(book);
+            int result = _book.Edit(book1);
             return StatusCode(result);
         }
 

@@ -16,7 +16,9 @@ namespace BookApi.DataAccess
         }
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            optionsBuilder.UseSqlServer(@"Server=DESKTOP-TN9J4B3\SQLEXPRESS; Database=BookDb;User Id=patika; Password=123patika; TrustServerCertificate=True");
+            string con1 = @"Server=DESKTOP-TN9J4B3\SQLEXPRESS; Database=BookDb;User Id=patika; Password=123patika; TrustServerCertificate=True";
+            string con2 = @"Server=localhost; Database=BookDb;User Id=sa; Password=123456; TrustServerCertificate=True";
+            optionsBuilder.UseSqlServer(con2);
         }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

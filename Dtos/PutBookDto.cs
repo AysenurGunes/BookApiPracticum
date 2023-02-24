@@ -2,7 +2,7 @@
 
 namespace BookApi.Dtos
 {
-    public class GetBookDto
+    public class PutBookDto
     {
        
             public int BookID { get; set; }

@@ -8,8 +8,12 @@ namespace BookApi.AutoMapper
     {
         public MappingProfile() 
         {
-            CreateMap<GetBookDto, Book>();
+            CreateMap<PutBookDto, Book>();
             CreateMap<PostBookDto, Book>();
+            CreateMap<PutBookTypeDto, BookType>();
+            CreateMap<PostBookTypeDto, BookType>(); 
+            CreateMap<PutPublisherDto, Publisher>();
+            CreateMap<PostPublisherDto, Publisher>();
         }
     }
 }

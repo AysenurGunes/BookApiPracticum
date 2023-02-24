@@ -1,1 +1,13 @@
 GET /api/Book/GetAll=>200
+GET /api/Book/GetAll=>200
+GET /api/Book/GetAll=>200
+GET /api/Book/GetAll=>200
+GET /api/BookType=>200
+GET /api/BookType=>200
+GET /api/Book/GetAll=>200
+PUT /api/BookType/0=>200
+GET /api/Publisher/GetAll=>200
+GET /api/Publisher/GetAll=>200
+PUT /api/Publisher/1=>200
+GET /api/Publisher/GetAll=>200
+POST /api/LoginProcess/Login=>200
