@@ -5,9 +5,16 @@ using System.Linq.Expressions;
 
 namespace BookApi.DataAccess
 {
-    public class BookRepository<TEntity,TContext> : IBook<TEntity>
+    /// <summary>
+    /// ismi BookRepository olsada BaseRepository olarak kullanılır.
+    /// varsayılan servis işlemleri tanımlanır.
+    /// Bu sayede tekrar tekrar servisi yazmaya gerek kalmıyor.
+    /// </summary>
+    /// <typeparam name="TEntity"></typeparam>
+    /// <typeparam name="TContext"></typeparam>
+    public class BookRepository<TEntity, TContext> : IBook<TEntity>
         where TEntity : class, new()
-        where TContext:BookDbContext,new()
+        where TContext : BookDbContext, new()
     {
         private readonly BookDbContext _dbContext;
         public BookRepository()
@@ -18,7 +25,7 @@ namespace BookApi.DataAccess
         {
             try
             {
-              
+
                 _dbContext.Entry(entity).State = EntityState.Added;
                 _dbContext.SaveChanges();
                 return StatusCodes.Status200OK;
@@ -63,7 +70,7 @@ namespace BookApi.DataAccess
         {
             try
             {
-             return  _dbContext.Set<TEntity>().ToList();
+                return _dbContext.Set<TEntity>().ToList();
 
             }
             catch (Exception)
@@ -83,7 +90,7 @@ namespace BookApi.DataAccess
                 return new TEntity();
             }
         }
-        public IList<TEntity> GetSpecial(Expression<Func<TEntity,bool>> expression)
+        public IList<TEntity> GetSpecial(Expression<Func<TEntity, bool>> expression)
         {
             try
             {
@@ -95,6 +102,6 @@ namespace BookApi.DataAccess
             }
         }
 
-       
+
     }
 }
