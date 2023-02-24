@@ -1,4 +1,4 @@
-using BookApi.DataAccess;
+﻿using BookApi.DataAccess;
 using BookApi.Helper;
 using BookApi.Models;
 using Microsoft.EntityFrameworkCore;
@@ -15,6 +15,7 @@ builder.Services.AddEndpointsApiExplorer();
 //builder.Services.AddSingleton<ServiceResponse<Book>>();
 builder.Services.AddSwaggerGen();
 builder.Services.AddHttpContextAccessor();
+//bu scope yapılanması ile IBook interface ile yönlendirilecek class belirtilir.
 builder.Services.AddScoped<IBook<Book>, BookRepository<Book,BookDbContext>>();
 builder.Services.AddScoped<IBook<BookType>, BookRepository<BookType, BookDbContext>>();
 builder.Services.AddScoped<IBook<Publisher>, BookRepository<Publisher, BookDbContext>>();
@@ -26,6 +27,7 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI();
 }
+//oluşturulan migration ile eğer db yoksa bu configurasyonlar ile db otomatik oluşturulur.
 using (var scope = app.Services.CreateScope())
 {
 

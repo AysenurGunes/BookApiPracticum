@@ -6,6 +6,9 @@ namespace BookApi.AutoMapper
 {
     public class MappingProfile:Profile
     {
+        /// <summary>
+        /// ViewModel için olusturulan Dtolar ile modellerin maplenmesi
+        /// </summary>
         public MappingProfile() 
         {
             CreateMap<PutBookDto, Book>();

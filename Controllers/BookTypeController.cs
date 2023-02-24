@@ -20,7 +20,11 @@ namespace BookApi.Controllers
             _bookType = bookType;
            _mapper = mapper;
         }
-
+        /// <summary>
+        /// validation, mapper di ile inject edlip. Post ve putta kullanılmıştır.
+        /// Oluşturulan Generic Entity ile BookType ve diğer modeller ile repository işlemleri karşılanmıştır.
+        /// Activity ise data silinmek istenmediği için datanın aktif olmadığını anlatmak için eklenmiştir.
+        /// </summary>
         [HttpGet("GetAll")]
         public List<BookType> Get()
         {

@@ -14,6 +14,11 @@ namespace BookApi.Controllers
     [ApiController]
     public class PublisherController : ControllerBase
     {
+        /// <summary>
+        /// validation, mapper di ile inject edlip. Post ve putta kullanılmıştır.
+        /// Oluşturulan Generic Entity ile Publisher ve diğer modeller ile repository işlemleri karşılanmıştır.
+        /// Activity ise data silinmek istenmediği için datanın aktif olmadığını anlatmak için eklenmiştir.
+        /// </summary>
         private readonly IBook<Publisher> _publisher;
         private readonly IMapper _mapper;
         public PublisherController(IBook<Publisher> publisher, IMapper mapper)
